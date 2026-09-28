@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function Resources(){return <section className="max-w-7xl mx-auto px-4 py-12"><h1 className="text-4xl font-black mb-4">📁 Free Resources</h1><div className="grid md:grid-cols-3 gap-5">{["Beginner PDF Guide","Common Vocabulary List","Conversation Practice"].map(x=><div className="bg-white border rounded-xl p-6"><h2 className="font-bold">{x}</h2><button className="mt-4 text-emerald-700">Open Resource →</button></div>)}</div></section>}

@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function Translation(){return <section className="max-w-7xl mx-auto px-4 py-12"><h1 className="text-4xl font-black mb-4">🌍 Translation</h1><div className="grid md:grid-cols-2 gap-5"><textarea className="border rounded-xl p-4 min-h-48" placeholder="Enter English or Kinyarwanda..."></textarea><div className="bg-white border rounded-xl p-4 min-h-48 text-slate-500">Translation will appear here.</div></div></section>}

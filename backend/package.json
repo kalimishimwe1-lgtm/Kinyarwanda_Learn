@@ -1,0 +1,1 @@
+{"scripts":{"start":"node server.js","dev":"node --watch server.js"},"dependencies":{"express":"latest","cors":"latest","mysql2":"latest","bcryptjs":"latest","jsonwebtoken":"latest","dotenv":"latest"}}

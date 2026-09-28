@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS kinyarwanda_learn; USE kinyarwanda_learn;
+CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(120) NOT NULL,email VARCHAR(160) UNIQUE NOT NULL,password VARCHAR(255) NOT NULL,role ENUM('student','admin') DEFAULT 'student',created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE lessons(id INT AUTO_INCREMENT PRIMARY KEY,title VARCHAR(200),level ENUM('Beginner','Intermediate','Advanced'),description TEXT,content TEXT,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE vocabulary(id INT AUTO_INCREMENT PRIMARY KEY,word VARCHAR(120),meaning VARCHAR(200),example_sentence TEXT);
+CREATE TABLE quizzes(id INT AUTO_INCREMENT PRIMARY KEY,question TEXT,option1 VARCHAR(200),option2 VARCHAR(200),option3 VARCHAR(200),option4 VARCHAR(200),answer VARCHAR(200));
+CREATE TABLE progress(id INT AUTO_INCREMENT PRIMARY KEY,user_id INT,lesson_id INT,completed TINYINT DEFAULT 0,score INT DEFAULT 0,FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,FOREIGN KEY(lesson_id) REFERENCES lessons(id) ON DELETE CASCADE);
+CREATE TABLE forum_posts(id INT AUTO_INCREMENT PRIMARY KEY,user_id INT,title VARCHAR(200),body TEXT,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE);
+INSERT INTO lessons(title,level,description,content) VALUES ('Greetings','Beginner','Basic greetings','Muraho = Hello. Mwaramutse = Good morning.'),('Numbers','Beginner','Learn numbers','Rimwe, kabiri, gatatu, kane, gatanu.'),('Family','Beginner','Family vocabulary','Umubyeyi = Parent. Umwana = Child.'),('Daily Conversation','Intermediate','Useful conversations','Practice common daily sentences.'),('Travel Phrases','Intermediate','Travel vocabulary','Learn useful phrases for travel.');
+INSERT INTO vocabulary(word,meaning,example_sentence) VALUES ('Muraho','Hello','Muraho neza!'),('Murakoze','Thank you','Murakoze cyane.'),('Yego','Yes','Yego, ndabyumva.'),('Oya','No','Oya, murakoze.');
+INSERT INTO quizzes(question,option1,option2,option3,option4,answer) VALUES ('What does Muraho mean?','Hello','Goodbye','Thanks','No','Hello');

@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function Forum(){return <section className="max-w-7xl mx-auto px-4 py-12"><h1 className="text-4xl font-black mb-4">💬 Forum</h1><div className="bg-white border rounded-2xl p-6"><h2 className="text-xl font-bold">Community discussions</h2><p className="text-slate-500 mt-2">Ask questions, share learning tips and practice Kinyarwanda with other learners.</p><button className="mt-5 bg-emerald-600 text-white px-5 py-2 rounded-lg">Create Post</button></div></section>}

@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function Progress(){return <section className="max-w-7xl mx-auto px-4 py-12"><h1 className="text-4xl font-black mb-4">📊 My Progress</h1><div className="grid md:grid-cols-3 gap-5">{[["Lessons completed","12"],["Quiz score","84%"],["Learning streak","7 days"]].map(x=><div className="bg-white border rounded-2xl p-6"><p className="text-slate-500">{x[0]}</p><p className="text-4xl font-black text-emerald-700 mt-2">{x[1]}</p></div>)}</div></section>}

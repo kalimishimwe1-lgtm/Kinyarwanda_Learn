@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function Dictionary(){return <section className="max-w-7xl mx-auto px-4 py-12"><h1 className="text-4xl font-black mb-4">🔎 Dictionary</h1><div className="max-w-2xl"><input className="w-full p-4 border rounded-xl" placeholder="Search Kinyarwanda or English..."/><div className="bg-white border rounded-xl p-5 mt-5"><b>Muraho</b><p className="text-slate-500">Hello / Greetings</p></div></div></section>}

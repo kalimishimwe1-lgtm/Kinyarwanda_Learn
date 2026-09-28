@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function Contact(){return <section className="max-w-7xl mx-auto px-4 py-12"><h1 className="text-4xl font-black mb-4">📞 Contact</h1><form className="max-w-xl bg-white border rounded-2xl p-6 grid gap-4"><input className="border p-3 rounded-lg" placeholder="Your name"/><input className="border p-3 rounded-lg" placeholder="Email"/><textarea className="border p-3 rounded-lg" placeholder="Message"></textarea><button className="bg-emerald-600 text-white py-3 rounded-lg">Send Message</button></form></section>}

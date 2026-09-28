@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom';
+export default function Quizzes(){return <section className="max-w-7xl mx-auto px-4 py-12"><h1 className="text-4xl font-black mb-4">🧠 Quizzes</h1><div className="bg-white border rounded-2xl p-7 max-w-2xl"><p className="text-slate-500">Test your knowledge.</p><h2 className="text-2xl font-bold mt-4">What does “Muraho” mean?</h2><div className="grid gap-3 mt-5">{["Goodbye","Hello","Thank you","Please"].map((x)=><button className="text-left border p-3 rounded-lg hover:bg-emerald-50">{x}</button>)}</div></div></section>}
