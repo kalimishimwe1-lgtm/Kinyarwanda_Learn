@@ -1,0 +1,58 @@
+services:
+  - type: web
+    name: kinyarwanda-learn-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      - key: CLIENT_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 3306
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_SSL
+        value: "true"
+      - key: POLYGON_AMOY_RPC_URL
+        value: https://rpc-amoy.polygon.technology
+      - key: REGISTRATION_CONTRACT_ADDRESS
+        sync: false
+  - type: web
+    name: kinyarwanda-learn-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: VITE_API_HOST
+        fromService:
+          type: web
+          name: kinyarwanda-learn-api
+          property: host
+      - key: VITE_REGISTRATION_CONTRACT_ADDRESS
+        sync: false
+      - key: VITE_POLYGON_AMOY_RPC_URL
+        value: https://rpc-amoy.polygon.technology
+      - key: VITE_CONTACT_EMAIL
+        sync: false
