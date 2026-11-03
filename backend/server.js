@@ -191,7 +191,11 @@ app.get('/api/health', async (req, res) => {
     });
   } catch (error) {
     console.error('Health check could not reach MySQL:', error.message);
-    res.status(503).json({ status: 'degraded', database: 'unavailable' });
+    res.status(503).json({
+      status: 'degraded',
+      database: 'unavailable',
+      error: 'The account database is unavailable. Check the backend database settings and try again.',
+    });
   }
 });
 

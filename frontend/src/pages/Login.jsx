@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import { ensureAccountApiReady } from '../lib/api';
 
 export default function Login() {
   const { login } = useAuth();
@@ -16,7 +17,8 @@ export default function Login() {
     setSubmitting(true);
 
     try {
-      await login({ email, password });
+      await ensureAccountApiReady();
+      await login({ email: email.trim(), password });
       navigate('/progress');
     } catch (requestError) {
       setError(requestError.message);
@@ -34,7 +36,7 @@ export default function Login() {
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-700" htmlFor="login-email">Email</label>
-            <input id="login-email" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-emerald-400 focus:bg-white" placeholder="you@example.com" />
+            <input id="login-email" type="email" autoComplete="email" maxLength="160" required value={email} onChange={(event) => setEmail(event.target.value)} className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-emerald-400 focus:bg-white" placeholder="you@example.com" />
           </div>
 
           <div>

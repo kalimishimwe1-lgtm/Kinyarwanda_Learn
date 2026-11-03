@@ -40,6 +40,13 @@ ALTER TABLE users
 
 Existing accounts can still sign in after this migration, but new signups need a Polygon registration receipt.
 
+### Login and registration troubleshooting
+
+- **Registration reports that no wallet was detected:** install MetaMask in the same browser and make sure it is unlocked. New accounts also require the deployed Polygon Amoy contract and test POL for the registration transaction.
+- **Registration says the account service is not ready:** verify the backend health endpoint reports `database: "connected"` and `blockchain: "configured"` before retrying. The form checks service readiness before asking the wallet to submit a transaction.
+- **Login reports that the account database is not connected:** configure the backend database variables and run the SQL schema. Signing in does not require a wallet, but it does require a reachable API and MySQL database.
+- **The account server cannot be reached:** start the backend and confirm `VITE_API_URL` points to its `/api` endpoint, or `VITE_API_HOST` is set for a Render deployment.
+
 ### 2. Deploy the registration contract to Polygon Amoy
 
 1. Add Polygon Amoy (chain ID `80002`) to your wallet and get test POL from an Amoy faucet.

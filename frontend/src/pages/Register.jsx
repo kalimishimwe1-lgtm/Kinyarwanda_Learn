@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BrowserProvider, Contract, keccak256, randomBytes } from 'ethers';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
-import { api } from '../lib/api';
+import { api, ensureAccountApiReady } from '../lib/api';
 
 const REGISTRATION_ABI = ['function recordRegistration(bytes32 registrationHash)'];
 const CONTRACT_ADDRESS = import.meta.env.VITE_REGISTRATION_CONTRACT_ADDRESS;
@@ -57,16 +57,24 @@ export default function Register() {
     setSubmitting(true);
 
     try {
+      if (!window.ethereum) {
+        throw new Error('No browser wallet was detected. Install MetaMask, then reopen this page in the same browser.');
+      }
+      if (!CONTRACT_ADDRESS) {
+        throw new Error('Account registration is not configured yet. Ask the site administrator to configure the Polygon Amoy registration contract.');
+      }
+
+      await ensureAccountApiReady({ requireRegistrationBlockchain: true });
       const { signer, walletAddress } = await connectToAmoy();
-      await api('/register/check', { method: 'POST', body: { email, walletAddress } });
+      await api('/register/check', { method: 'POST', body: { email: email.trim(), walletAddress } });
       const registrationHash = keccak256(randomBytes(32));
       const contract = new Contract(CONTRACT_ADDRESS, REGISTRATION_ABI, signer);
       const transaction = await contract.recordRegistration(registrationHash);
       await transaction.wait();
 
       await register({
-        name,
-        email,
+        name: name.trim(),
+        email: email.trim(),
         password,
         walletAddress,
         registrationHash,
@@ -74,7 +82,11 @@ export default function Register() {
       });
       navigate('/progress');
     } catch (requestError) {
-      setError(requestError.shortMessage || requestError.message || 'Unable to create your account.');
+      if (requestError.code === 4001) {
+        setError('The wallet request was cancelled. Approve the connection and transaction to finish creating your account.');
+      } else {
+        setError(requestError.shortMessage || requestError.message || 'Unable to create your account.');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -86,7 +98,10 @@ export default function Register() {
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">Start your journey</p>
         <h1 className="mt-3 text-3xl font-black text-slate-900">Create an account</h1>
         <p className="mt-3 text-sm text-slate-600">
-          Your email and password stay private. A wallet registration receipt is written to Polygon Amoy; test POL is needed for network fees.
+          Your email and password stay private. New accounts require a browser wallet and a Polygon Amoy registration receipt; test POL is needed for network fees.
+        </p>
+        <p className="mt-3 text-sm text-slate-600">
+          Don’t have a wallet? <a href="https://metamask.io/download/" target="_blank" rel="noreferrer" className="font-semibold text-emerald-700 underline hover:text-emerald-800">Install MetaMask</a>, then reopen this page in the same browser.
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
@@ -97,7 +112,7 @@ export default function Register() {
 
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-700" htmlFor="register-email">Email</label>
-            <input id="register-email" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-emerald-400 focus:bg-white" placeholder="you@example.com" />
+            <input id="register-email" type="email" autoComplete="email" maxLength="160" required value={email} onChange={(event) => setEmail(event.target.value)} className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-emerald-400 focus:bg-white" placeholder="you@example.com" />
           </div>
 
           <div>
