@@ -90,6 +90,8 @@ Sign out and back in so the app refreshes the account role. Admins can view user
 
 ## Deployment
 
+The frontend is published to [GitHub Pages](https://kalimishimwe1-lgtm.github.io/Kinyarwanda_Learn/) whenever `main` is updated. GitHub Pages hosts only the frontend; account and other API-backed features need a running backend. To connect an external API, add a `VITE_API_URL` repository variable with its `/api` URL. For a full-stack deployment, use the Render Blueprint below.
+
 Deploy both services to Render using the included [`render.yaml`](./render.yaml) Blueprint. It defines the API and frontend static site, configures the SPA rewrite, and supplies the API host to the frontend build. During Blueprint setup, provide the database connection values, the deployed Polygon Amoy contract address, and `VITE_CONTACT_EMAIL` (optional). Render generates `JWT_SECRET`; do not commit `.env` files or secrets.
 
 After the first Render deployment, set the API's `CLIENT_URL` to the generated frontend origin (for example, `https://kinyarwanda-learn-web.onrender.com`) and redeploy the API. Apply the SQL schema/migration to a managed MySQL service and use its TLS connection settings before enabling account registration. Set the same contract address for the API and frontend. For a manually configured frontend deployment, use the included [`frontend/vercel.json`](./frontend/vercel.json) or [`frontend/netlify.toml`](./frontend/netlify.toml) for SPA routing and set:
